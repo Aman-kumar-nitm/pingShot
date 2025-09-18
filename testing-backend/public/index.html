@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Socket.IO Demo</title>
+</head>
+<body>
+  <h2>Chat App</h2>
+  <ul id="messages"></ul>
+  <input id="input" autocomplete="off" /><button id="send">Send</button>
+
+  <!-- Load socket.io client -->
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    const socket = io(); // auto-connect to server
+
+    // Send message
+    document.getElementById("send").onclick = () => {
+      const msg = document.getElementById("input").value;
+      socket.emit("chat message", msg);
+      document.getElementById("input").value = "";
+    };
+
+    // Listen for messages from server
+    socket.on("chat message", (msg) => {
+      const li = document.createElement("li");
+      li.textContent = msg;
+      document.getElementById("messages").appendChild(li);
+    });
+  </script>
+</body>
+</html>
